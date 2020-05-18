@@ -116,13 +116,13 @@ const StateType = new GraphQLObjectType({
                     for (let i in fetchedObj.districtData) {
                         let obj = {
                             name: fetchedObj.districtData[i].district,
-                            cases: parseInt(fetchedObj.districtData[i].confirmed),
-                            deaths: parseInt(fetchedObj.districtData[i].deceased),
-                            recovered: parseInt(fetchedObj.districtData[i].recovered),
-                            active: parseInt(fetchedObj.districtData[i].active),
-                            todayCases: parseInt(fetchedObj.districtData[i].deltaconfirmed),
-                            todayDeaths: parseInt(fetchedObj.districtData[i].deltadeaths),
-                            todayRecovered: parseInt(fetchedObj.districtData[i].deltarecovered)
+                            cases: fetchedObj.districtData[i].confirmed,
+                            deaths: fetchedObj.districtData[i].deceased,
+                            recovered: fetchedObj.districtData[i].recovered,
+                            active: fetchedObj.districtData[i].active,
+                            todayCases: fetchedObj.districtData[i].delta.confirmed,
+                            todayDeaths: fetchedObj.districtData[i].delta.deceased,
+                            todayRecovered: fetchedObj.districtData[i].delta.recovered
                         }
                         resData.push(obj)
                     }
@@ -140,8 +140,8 @@ const StateType = new GraphQLObjectType({
                     //     }
                     // }
 
-                    // console.log(resData)
-                    // console.log(fetchedState)
+                    console.log(resData)
+                        // console.log(fetchedState)
                     return resData;
                 });
             }
