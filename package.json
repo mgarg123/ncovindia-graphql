@@ -1,0 +1,19 @@
+{
+  "name": "ncovindia-graphql",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "express": "^4.17.1",
+    "express-graphql": "^0.9.0",
+    "graphql": "^15.0.0",
+    "next": "9.4.1",
+    "react": "16.13.1",
+    "react-dom": "16.13.1"
+  }
+}
