@@ -117,7 +117,7 @@ const StateType = new GraphQLObjectType({
                         let obj = {
                             name: fetchedObj.districtData[i].district,
                             cases: parseInt(fetchedObj.districtData[i].confirmed),
-                            deaths: parseInt(fetchedObj.districtData[i].deaths),
+                            deaths: parseInt(fetchedObj.districtData[i].deceased),
                             recovered: parseInt(fetchedObj.districtData[i].recovered),
                             active: parseInt(fetchedObj.districtData[i].active),
                             todayCases: parseInt(fetchedObj.districtData[i].deltaconfirmed),
