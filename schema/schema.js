@@ -1,24 +1,38 @@
 const graphql = require('graphql')
 const axios = require('axios')
-const fs = require('fs')
+    // const fs = require('fs')
 
 const {
     GraphQLObjectType,
     GraphQLString,
     GraphQLInt,
     GraphQLSchema,
-    GraphQLList
+    GraphQLList,
+    GraphQLNonNull
 } = graphql;
 
 let jsonData = []
-fs.readFile('./data/covidzone.json', (err, data) => {
-    if (err) {
-        console.log(err.message)
-        return
-    }
-    jsonData = JSON.parse(data)
-})
+console.log("Hi")
+    // fs.readFile('./data/covidzone.json', (err, data) => {
+    //     if (err) {
+    //         console.log(err.message)
+    //         return
+    //     }
+    //     jsonData = JSON.parse(data)
+    // })
 
+
+//Caching API's
+// addEventListener('load', () => {
+//     if (localStorage.getItem('ncovindia_dataApi') !== null) {
+//         axios.get('https://api.covid19india.org/data.json').then(res => {
+//             let data = res.data 
+//             localStorage.setItem('ncovindia_dataApi', JSON.stringify(data))
+//             let date = new Date()
+//             localStorage.setItem('ncovindia_timestamp',(date.getHours()+":"+date.getMinutes()))
+//         })
+//     }
+// })
 
 const CountryType = new GraphQLObjectType({
     name: 'Country',
@@ -44,6 +58,7 @@ const CountryType = new GraphQLObjectType({
 
                     let obj = {
                         name: fetchedObj.state,
+                        stateCode: fetchedObj.statecode,
                         cases: parseInt(fetchedObj.confirmed),
                         deaths: parseInt(fetchedObj.deaths),
                         recovered: parseInt(fetchedObj.recovered),
@@ -69,6 +84,7 @@ const CountryType = new GraphQLObjectType({
                     for (let i in fetchedObj) {
                         let obj = {
                             name: fetchedObj[i].state,
+                            stateCode: fetchedObj[i].statecode,
                             cases: parseInt(fetchedObj[i].confirmed),
                             deaths: parseInt(fetchedObj[i].deaths),
                             recovered: parseInt(fetchedObj[i].recovered),
@@ -83,6 +99,105 @@ const CountryType = new GraphQLObjectType({
                     return result;
                 });
             }
+        },
+        historical: {
+            type: new GraphQLList(HistoricalType),
+            args: {
+                type: { type: GraphQLString, description: "Supply 'timeSeries' for time series data." },
+                fromDate: {
+                    type: GraphQLString,
+                    description: "Supply from date in format: DD/MM"
+                },
+                toDate: { type: GraphQLString, description: "Supply date in format: DD/MM" }
+            }, //Either timeSeries or daily based
+            description: "Fetch India's historical cases.",
+            resolve(parentValue, args) {
+                return axios.get('https://api.covid19india.org/data.json').then(res => {
+                    let data = res.data.cases_time_series
+                    let month = ["January", "February", "March", "April", "May", "June", "July",
+                        "August", "September", "October", "November", "December"
+                    ];
+                    let from = args.fromDate && args.fromDate.split("/")[0] + " " + month[parseInt(args.fromDate.split("/")[1]) - 1]
+                    let to = args.toDate && args.toDate.split("/")[0] + " " + month[parseInt(args.toDate.split("/")[1] - 1)]
+                    let result = []
+                    let startIndex = 0
+                    let endIndex = 0
+                    if (args.fromDate) {
+                        for (let i in data) {
+                            if (data[i].date.trim() === from) {
+                                startIndex = i
+                            }
+                            if (data[i].date.trim() === to) {
+                                endIndex = i
+                                break;
+                            }
+                        }
+                    }
+
+
+                    if (args.type === "timeSeries") {
+                        if (args.fromDate && args.toDate) {
+                            if (args.fromDate !== null && args.toDate !== null) {
+
+                                for (let i = startIndex; i <= endIndex; i++) {
+                                    let obj = {
+                                        date: data[i].date + "",
+                                        cases: data[i].totalconfirmed + "",
+                                        recovered: data[i].totalrecovered + "",
+                                        deaths: data[i].totaldeceased + ""
+                                    }
+                                    result.push(obj)
+                                    console.log(startIndex + " " + endIndex)
+                                    console.log(from)
+                                    console.log(to)
+                                }
+                                return result;
+                            }
+                        } else {
+                            for (let i in data) {
+                                let obj = {
+                                    date: data[i].date + "",
+                                    cases: data[i].totalconfirmed + "",
+                                    recovered: data[i].totalrecovered + "",
+                                    deaths: data[i].totaldeceased + ""
+                                }
+                                result.push(obj)
+                            }
+                            return result;
+                        }
+
+
+                    } else {
+                        if (args.fromDate && args.toDate) {
+                            for (let i = startIndex; i <= endIndex; i++) {
+                                let obj = {
+                                    date: data[i].date + "",
+                                    cases: data[i].dailyconfirmed + "",
+                                    recovered: data[i].dailyrecovered + "",
+                                    deaths: data[i].dailydeceased + ""
+                                }
+                                result.push(obj)
+                                    // console.log(startIndex + " " + endIndex)
+                                    // console.log(from)
+                                    // console.log(to)
+                            }
+                            return result;
+                        } else {
+                            for (let i in data) {
+                                let obj = {
+                                    date: data[i].date + "",
+                                    cases: data[i].dailyconfirmed + "",
+                                    recovered: data[i].dailyrecovered + "",
+                                    deaths: data[i].dailydeceased + ""
+                                }
+                                result.push(obj)
+                            }
+                            return result;
+                        }
+
+                    }
+                });
+            }
         }
     })
 });
@@ -92,6 +207,7 @@ const StateType = new GraphQLObjectType({
     name: 'State',
     fields: () => ({
         name: { type: GraphQLString },
+        stateCode: { type: GraphQLString },
         cases: { type: GraphQLInt },
         recovered: { type: GraphQLInt },
         deaths: { type: GraphQLInt },
@@ -100,6 +216,34 @@ const StateType = new GraphQLObjectType({
         todayDeaths: { type: GraphQLInt },
         todayRecovered: { type: GraphQLInt },
         lastupdated: { type: GraphQLString },
+        historical: {
+            type: new GraphQLList(HistoricalType),
+            resolve(parentValue, args) {
+                return axios.get("https://api.covid19india.org/states_daily.json").then(res => {
+                    let data = res.data.states_daily
+
+                    let stateCode = parentValue.stateCode
+                        // console.log(stateCode)
+                    let result = []
+                    for (let i = 0; i < data.length; i += 3) {
+                        let cases = data[i][stateCode.toLowerCase()]
+                        let rec = data[i + 1][stateCode.toLowerCase()]
+                        let dths = data[i + 2][stateCode.toLowerCase()]
+                        let obj = {
+                                date: data[i].date,
+                                cases: cases,
+                                recovered: rec,
+                                deaths: dths
+                            }
+                            // console.log(obj)
+                        result.push(obj)
+                    }
+                    console.log(result)
+                    return result;
+
+                });
+            }
+        },
         districts: {
             type: new GraphQLList(DistrictType),
             resolve(parentValue, args) {
@@ -116,6 +260,7 @@ const StateType = new GraphQLObjectType({
                     for (let i in fetchedObj.districtData) {
                         let obj = {
                             name: fetchedObj.districtData[i].district,
+                            stateName: fetchedObj.stateName,
                             cases: fetchedObj.districtData[i].confirmed,
                             deaths: fetchedObj.districtData[i].deceased,
                             recovered: fetchedObj.districtData[i].recovered,
@@ -153,6 +298,7 @@ const DistrictType = new GraphQLObjectType({
     name: 'District',
     fields: () => ({
         name: { type: GraphQLString },
+        stateName: { type: GraphQLString },
         cases: { type: GraphQLInt },
         recovered: { type: GraphQLInt },
         deaths: { type: GraphQLInt },
@@ -160,9 +306,44 @@ const DistrictType = new GraphQLObjectType({
         todayCases: { type: GraphQLInt },
         todayDeaths: { type: GraphQLInt },
         todayRecovered: { type: GraphQLInt },
-        // zone: { type: GraphQLString }
+        // zone: { type: GraphQLString },
+        historical: {
+            type: new GraphQLList(HistoricalType),
+            resolve(parentValue, args) {
+                return axios.get('https://api.covid19india.org/districts_daily.json').then(res => {
+                    let data = res.data.districtsDaily
+
+                    let stateName = parentValue.stateName
+                    let distData = data[stateName][parentValue.name]
+                    let result = []
+                    for (let i in distData) {
+                        let obj = {
+                            date: distData[i].date + "",
+                            cases: distData[i].confirmed + "",
+                            recovered: distData[i].recovered + "",
+                            deaths: distData[i].deceased + "",
+                        }
+                        result.push(obj)
+                    }
+                    console.log(result)
+                    return result;
+                });
+            }
+        }
     })
 });
+
+const HistoricalType = new GraphQLObjectType({
+    name: 'Historical',
+    fields: () => ({
+        date: { type: GraphQLString },
+        cases: { type: GraphQLString },
+        recovered: { type: GraphQLString },
+        deaths: { type: GraphQLString }
+
+    })
+})
+
 
 
 const RootQuery = new GraphQLObjectType({
@@ -193,7 +374,7 @@ const RootQuery = new GraphQLObjectType({
         },
         state: {
             type: StateType,
-            args: { stateName: { type: GraphQLString } },
+            args: { stateName: { type: new GraphQLNonNull(GraphQLString) } },
             resolve(parentValue, args) {
                 return axios.get('http://api.covid19india.org/data.json').then(res => {
                     let data = res.data
@@ -203,6 +384,7 @@ const RootQuery = new GraphQLObjectType({
 
                     let obj = {
                         name: fetchedObj.state,
+                        stateCode: fetchedObj.statecode,
                         cases: parseInt(fetchedObj.confirmed),
                         deaths: parseInt(fetchedObj.deaths),
                         recovered: parseInt(fetchedObj.recovered),
@@ -228,6 +410,7 @@ const RootQuery = new GraphQLObjectType({
                     for (let i in fetchedObj) {
                         let obj = {
                             name: fetchedObj[i].state,
+                            stateCode: fetchedObj[i].statecode,
                             cases: parseInt(fetchedObj[i].confirmed),
                             deaths: parseInt(fetchedObj[i].deaths),
                             recovered: parseInt(fetchedObj[i].recovered),
@@ -245,7 +428,7 @@ const RootQuery = new GraphQLObjectType({
         },
         district: {
             type: DistrictType,
-            args: { stateName: { type: GraphQLString }, districtName: { type: GraphQLString } },
+            args: { stateName: { type: new GraphQLNonNull(GraphQLString) }, districtName: { type: new GraphQLNonNull(GraphQLString) } },
             resolve(parentValue, args) {
                 return axios.get('https://api.covid19india.org/v2/state_district_wise.json').then(res => {
                     let data = res.data
@@ -261,6 +444,7 @@ const RootQuery = new GraphQLObjectType({
 
                     let obj = {
                         name: fetchedObj.district,
+                        stateName: stateName,
                         cases: fetchedObj.confirmed,
                         deaths: fetchedObj.deceased,
                         recovered: fetchedObj.recovered,
