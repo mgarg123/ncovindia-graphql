@@ -8,7 +8,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Link href={`https://api.ncovindias.xyz/api/graphql`}><a style={{ fontWeight: "bold" }}>Visit API playground</a></Link>
+        <Link href="/api/graphql"><a style={{ fontWeight: "bold" }}>Visit API playground</a></Link>
         <div>
           API Endpoint: https://api.ncovindias.xyz/api/graphql
         </div>
