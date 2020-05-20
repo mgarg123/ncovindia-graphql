@@ -1,0 +1,188 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+header {
+    height: 60px;
+    display: flex;
+    box-shadow: 1px -1px 5px 2px rgba(0, 0, 0, 0.4);
+}
+
+.logo {
+    margin: 5px 5px 5px 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.brand-name {
+    display: flex;
+    justify-content: center;
+    letter-spacing: 0.5px;
+    font-weight: bold;
+    align-self: center;
+    margin: 5px;
+    font-size: 1.2em;
+}
+
+main {
+    width: 100%;
+    margin-top: 10px;
+}
+
+main .api-details {
+    width: 98%;
+    margin: 0 auto;
+    /* border: 1px solid black; */
+    text-align: center;
+}
+
+.main-title span:nth-child(1) {
+    font-size: 30px;
+    border-bottom: 1px solid rgb(173, 173, 173);
+}
+
+.fa-heart {
+    font-size: 25px;
+    color: rgb(136, 207, 30);
+    text-shadow: 1px 1px 1px 1px rgb(151, 196, 85);
+}
+
+.table {
+    width: 100%;
+    margin: 10px 0px;
+    /* overflow-x: hidden; */
+}
+
+.table table {
+    border-collapse: collapse;
+    margin: 10px auto;
+    border: 1.5px solid #ccc;
+    /* border-radius: 4px; */
+}
+
+tbody,
+thead,
+tr,
+td,
+th {
+    border: 1.5px solid #ccc;
+    /* border-radius: 4px; */
+}
+
+th,
+td {
+    /* min-width: 80px; */
+    padding: 5px;
+}
+
+a {
+    /* text-decoration: none; */
+    color: rgb(3, 141, 175);
+}
+
+
+/* #api-table {
+    width: 90%;
+    margin: 0 auto;
+} */
+
+.api-docs {}
+
+.api-docs-title {
+    margin: 25px 0px 15px 0px;
+}
+
+.api-docs-title span {
+    font-size: 22px;
+    font-weight: bold;
+    border-bottom: 1px solid rgb(173, 173, 173);
+}
+
+.queries-table {
+    width: 100%;
+}
+
+.queries-table table {
+    margin: 0 auto;
+    width: 80%;
+    border-collapse: collapse;
+}
+
+.queries-table table th,
+td {
+    min-width: 110px;
+}
+
+.queries-table>div {
+    font-size: 18px;
+    margin-top: 15px;
+    margin-bottom: 4px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.available-fields-table {
+    margin: 0px 0px 70px 0px;
+}
+
+.available-fields-table>div {
+    margin: 25px 0px 10px 0px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.available-fields-table table {
+    border-collapse: collapse;
+    margin: 0 auto;
+}
+
+.available-fields-table table th,
+.available-fields-table table td {
+    min-width: 100px;
+}
+
+footer {
+    height: 50px;
+    box-shadow: 0px 0px 7px -1px rgba(0, 0, 0, 0.4);
+    font-size: 12px;
+    position: fixed;
+    background: #eee;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    color: #222;
+}
+
+.footer-left {
+    width: 50%;
+    height: 100%;
+    float: left;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer-right {
+    width: 50%;
+    height: 100%;
+    float: right;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media(max-width:768px) {
+    .table {
+        overflow-x: scroll;
+    }
+    .queries-table {
+        overflow-x: scroll;
+    }
+    .available-fields-table {
+        overflow-x: scroll;
+    }
+}
