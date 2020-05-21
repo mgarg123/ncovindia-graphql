@@ -11,6 +11,11 @@ header {
     clear: both;
 }
 
+header a {
+    text-decoration: none;
+    color: unset;
+}
+
 .left-header {
     width: 60%;
     display: flex;
