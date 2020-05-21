@@ -11,7 +11,7 @@ Visit here for documentation and examples:
 [https://api.ncovindias.xyz]
 
 ## Can be used with any REST api framework
-1. Axios
+1. Axios    <a href="https://medium.com/@stubailo/how-to-call-a-graphql-server-with-axios-337a94ad6cf9">Check Example</a>
 2. Fetch
 3. Apollo Client
 
