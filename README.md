@@ -1,4 +1,26 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/zeit/next.js/tree/canary/packages/create-next-app).
+## 
+## API Endpoint
+https://api.ncovindias.xyz/api/graphql
+
+## GraphQL Playground
+https://api.ncovindias.xyz/api/graphql
+
+## Documentation && Examples
+
+Visit here for documentation and examples:
+[https://api.ncovindias.xyz]
+
+## Can be used with any REST api framework
+<pre>
+1. Axios             -   <a href="https://medium.com/@stubailo/how-to-call-a-graphql-server-with-axios-337a94ad6cf9">Check Example</a>
+2. Fetch             -   <a href="https://moonhighway.com/fetching-data-from-a-graphql-api">Check Example</a>
+3. Android - Apollo  -   <a href="https://github.com/apollographql/apollo-android">Check Example</a>
+4. iOS - Apollo      -   <a href="https://www.apollographql.com/docs/ios/">Check Example</a>
+</pre>
+
+## Projects using this API
+
+1. Covid19 tracker dashboard - https://ncovindias.xyz 
 
 ## Getting Started
 
@@ -14,17 +36,5 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/zeit/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/import?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
