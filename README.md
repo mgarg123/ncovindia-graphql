@@ -20,7 +20,7 @@ Visit here for documentation and examples:
 
 ## Projects using this API
 
-1. Covid19 Stats - https://ncovindias.xyz 
+1. Covid19 tracker dashboard - https://ncovindias.xyz 
 
 ## Getting Started
 
