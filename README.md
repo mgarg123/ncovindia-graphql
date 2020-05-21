@@ -18,6 +18,9 @@ Visit here for documentation and examples:
 4. iOS - Apollo      -   <a href="https://www.apollographql.com/docs/ios/">Check Example</a>
 </pre>
 
+## Projects using this API
+
+1. Covid19 Stats - https://ncovindias.xyz 
 
 ## Getting Started
 
