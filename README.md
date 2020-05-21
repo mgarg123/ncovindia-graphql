@@ -1,4 +1,20 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/zeit/next.js/tree/canary/packages/create-next-app).
+## 
+## API Endpoint
+https://api.ncovindias.xyz
+
+## GraphQL Playground
+https://api.ncovindias.xyz
+
+## Documentation && Examples
+
+Visit here for documentation and examples:
+[https://api.ncovindias.xyz]
+
+## Can be used with any REST api framework
+1. Axios
+2. Fetch
+3. Apollo Client
+
 
 ## Getting Started
 
@@ -14,7 +30,5 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
 
-## Documentation
 
-Visit here for documentation:
-[https://api.ncovindias.xyz]
+
