@@ -1,9 +1,9 @@
 ## 
 ## API Endpoint
-https://api.ncovindias.xyz
+https://api.ncovindias.xyz/api/graphql
 
 ## GraphQL Playground
-https://api.ncovindias.xyz
+https://api.ncovindias.xyz/api/graphql
 
 ## Documentation && Examples
 
