@@ -12,10 +12,10 @@ Visit here for documentation and examples:
 
 ## Can be used with any REST api framework
 <pre>
-1. Axios      <a href="https://medium.com/@stubailo/how-to-call-a-graphql-server-with-axios-337a94ad6cf9">Check Example</a>
-2. Fetch      <a href="https://moonhighway.com/fetching-data-from-a-graphql-api">Check Example</a>
-3. Android - Apollo    <a href="https://github.com/apollographql/apollo-android">Check Example</a>
-4. iOS - Apollo    <a href="https://www.apollographql.com/docs/ios/">Check Example</a>
+1. Axios             -   <a href="https://medium.com/@stubailo/how-to-call-a-graphql-server-with-axios-337a94ad6cf9">Check Example</a>
+2. Fetch             -   <a href="https://moonhighway.com/fetching-data-from-a-graphql-api">Check Example</a>
+3. Android - Apollo  -   <a href="https://github.com/apollographql/apollo-android">Check Example</a>
+4. iOS - Apollo      -   <a href="https://www.apollographql.com/docs/ios/">Check Example</a>
 </pre>
 
 
