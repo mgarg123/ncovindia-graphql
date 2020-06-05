@@ -12,7 +12,7 @@ const {
 } = graphql;
 
 let jsonData = []
-console.log("Hi")
+    // console.log("Hi")
     // fs.readFile('./data/covidzone.json', (err, data) => {
     //     if (err) {
     //         console.log(err.message)
