@@ -46,6 +46,9 @@ const CountryType = new GraphQLObjectType({
         todayRecovered: { type: GraphQLInt },
         lastupdated: { type: GraphQLString },
         totalAffectedStates: { type: GraphQLInt },
+        countryName: { type: GraphQLString },
+        countryCode: { type: GraphQLString },
+        countrySlug: { type: GraphQLString },
         state: {
             type: StateType,
             args: { stateName: { type: GraphQLString } },
@@ -344,11 +347,78 @@ const HistoricalType = new GraphQLObjectType({
     })
 })
 
+const WorldType = new GraphQLObjectType({
+    name: 'World',
+    fields: () => ({
+        lastupdated: { type: GraphQLString },
+        cases: { type: GraphQLInt },
+        todayCases: { type: GraphQLInt },
+        deaths: { type: GraphQLInt },
+        todayDeaths: { type: GraphQLInt },
+        recovered: { type: GraphQLInt },
+        todayRecovered: { type: GraphQLInt },
+        country: {
+            type: CountryType,
+            args: {
+                countryName: { type: GraphQLString, description: 'Fetch using Country Name' },
+                countryCode: { type: GraphQLString, description: 'Fetch using Country Code' }
+            },
+            description: 'Fetch stats of particular countries',
+            resolve(parentValue, args) {
+                return axios.get('https://api.covid19api.com/summary').then(response => {
+                    let data = response.data.Countries
+                    let resData = {}
+                    if (args.countryName !== null) {
+                        resData = data.find(x => x.Country === args.countryName)
+                    }
+                    if (args.countryCode !== null) {
+                        resData = data.find(x => x.CountryCode === args.countryCode)
+                    }
+
+                    let res = {
+                        cases: resData.TotalConfirmed,
+                        deaths: resData.TotalDeaths,
+                        recovered: resData.TotalRecovered,
+                        todayCases: resData.NewConfirmed,
+                        todayDeaths: resData.NewDeaths,
+                        todayRecovered: resData.NewRecovered,
+                        countryName: resData.Country,
+                        countryCode: resData.CountryCode,
+                        countrySlug: resData.slug,
+                        lastupdated: resData.Date
+                    }
+                    return res;
+                });
+            }
+
+        }
+    })
+})
+
 
 
 const RootQuery = new GraphQLObjectType({
     name: 'RootQueryType',
     fields: {
+        world: {
+            type: WorldType,
+            resolve(parentValue, args) {
+                return axios.get('https://api.covid19api.com/summary').then(resp => {
+                    let resData = resp.data.Global
+
+                    let res = {
+                        cases: resData.TotalConfirmed,
+                        deaths: resData.TotalDeaths,
+                        recovered: resData.TotalRecovered,
+                        todayCases: resData.NewConfirmed,
+                        todayDeaths: resData.NewDeaths,
+                        todayRecovered: resData.NewRecovered,
+                        lastupdated: resData.Date
+                    }
+                    return res;
+                });
+            }
+        },
         country: {
             type: CountryType,
             resolve(parentValue, args) {
